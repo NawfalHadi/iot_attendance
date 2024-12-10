@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "243711197201",
+    "firebase_url": "https://iot-attendance-752c8-default-rtdb.asia-southeast1.firebasedatabase.app",
+    "project_id": "iot-attendance-752c8",
+    "storage_bucket": "iot-attendance-752c8.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:243711197201:android:4997ad625c17cb4fa9b1b0",
+        "android_client_info": {
+          "package_name": "space.thatnawfal.iotattendance"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC72-2cKglOCy1MmCKXbuJYsjL91nk3vqs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
