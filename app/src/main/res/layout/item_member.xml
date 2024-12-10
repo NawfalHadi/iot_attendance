@@ -39,6 +39,7 @@
             app:layout_constraintStart_toStartOf="@id/item_name"/>
 
         <TextView
+            android:id="@+id/item_expired"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Expired At : 12/5/2024"

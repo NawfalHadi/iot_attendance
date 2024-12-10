@@ -56,6 +56,8 @@ class MainActivity : AppCompatActivity() {
                 intent.putExtra("name", member.name)
                 intent.putExtra("phone", member.phone_number)
                 intent.putExtra("expired", member.expired_at)
+                intent.putExtra("created", member.created_at)
+                intent.putExtra("updated", member.updated_at)
 
                 startActivity(intent)
 
@@ -101,6 +103,7 @@ class MainActivity : AppCompatActivity() {
                         expired_at = user["expired_at"] as String,
                         updated_at = user["updated_at"] as String
                   )
+
 
                     memberList.add(temp)
                     Log.d("FIREBASE VALUE", "Here : ${key}")
