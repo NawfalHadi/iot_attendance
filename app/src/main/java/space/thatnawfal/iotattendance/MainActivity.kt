@@ -1,5 +1,6 @@
 package space.thatnawfal.iotattendance
 
+import android.annotation.SuppressLint
 import android.app.PendingIntent
 import android.content.Intent
 import android.content.IntentFilter
@@ -12,18 +13,24 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.firebase.Firebase
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
 import com.google.firebase.database.database
 import com.google.firebase.database.getValue
+import space.thatnawfal.iotattendance.adapter.MemberAdapter
+import space.thatnawfal.iotattendance.data.User
 import space.thatnawfal.iotattendance.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
     private var nfcAdapter: NfcAdapter? = null
+
+    private lateinit var memberAdapter: MemberAdapter
+    val memberList = mutableListOf<User>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -40,6 +47,11 @@ class MainActivity : AppCompatActivity() {
             insets
         }
 
+        memberAdapter = MemberAdapter(memberList)
+        binding.rvMember.adapter = memberAdapter
+        binding.rvMember.setHasFixedSize(true)
+        binding.rvMember.layoutManager = LinearLayoutManager(this)
+
         binding.fabRegister.setOnClickListener {
             startActivity(Intent(this, RegisterActivity::class.java))
         }
@@ -50,16 +62,39 @@ class MainActivity : AppCompatActivity() {
         val myRef = database.getReference("")
 
         myRef.addValueEventListener(object : ValueEventListener {
+            @SuppressLint("NotifyDataSetChanged")
             override fun onDataChange(snapshot: DataSnapshot) {
+                memberList.clear()
+
                 val value = snapshot.getValue<HashMap<String, Any>>()
                 Log.d("FIREBASE KEY", "Value is: {${value?.keys}}")
                 Log.d("FIREBASE VALUE", "Value is: {${value?.values}}")
+
+                for (data in value!!.values){
+                    val user = data as Map<*, *>
+                    val temp = User(
+                    active = user["active"] as Long,
+                    name = user["name"] as String,
+                    phone_number = user["phone_number"] as String,
+                    created_at = user["created_at"] as String,
+                    expired_at = user["expired_at"] as String,
+                    updated_at = user["updated_at"] as String
+                  )
+
+                    memberList.add(temp)
+                    Log.d("FIREBASE VALUE", "Here : ${user["name"]}")
+
+                }
+
+                memberAdapter.notifyDataSetChanged()
+
             }
 
             override fun onCancelled(error: DatabaseError) {
                 Log.w("ERROR FIREBASE", "Failed to read value.", error.toException())
             }
         })
+
     }
 
     override fun onResume() {
