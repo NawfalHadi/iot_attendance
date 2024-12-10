@@ -78,13 +78,8 @@ class RegisterActivity : AppCompatActivity() {
 //            Log.d("FILL TEXT:", "onCreate: {${binding.etName.text}, ${binding.etName.text?.isEmpty()}}")
             if (rfid != null && name != null && nohp != null && date != null){
                 Log.d("Firebase", "Step 1")
-                if (!rfidRegistered()){
-                    Log.d("Firebase", "Step 2")
-                    registerUser()
-                }else {
-                    binding.tvIdRfid.text = "RFID $rfid Sudah Terdaftar"
-                    binding.tvIdRfid.setTextColor(ContextCompat.getColor(this, R.color.red))
-                }
+
+                registerUser()
 
             } else {
                 if (rfid == null){
@@ -137,7 +132,8 @@ class RegisterActivity : AppCompatActivity() {
 
         var isRegistered = true
 
-        if (rfid?.contains(rfid!!) == true){
+        if (keyList.contains(rfid!!)){
+            Log.d("Firebase", "RFID Sudah Terdaftar {$isRegistered}")
             isRegistered = false
         }
 
@@ -182,6 +178,7 @@ class RegisterActivity : AppCompatActivity() {
         }
     }
 
+    @SuppressLint("SetTextI18n")
     private fun registerUser() {
         Log.d("Firebase", "Register User")
 
@@ -204,12 +201,19 @@ class RegisterActivity : AppCompatActivity() {
             expired_at = date
         )
 
-        myRef.child(rfid!!).setValue(data).addOnSuccessListener {
-            Log.d("Firebase REG:", "Data sent successfully")
-        }.addOnFailureListener {
-            Log.d("Firebase", "Data failed to send")
+        if (rfidRegistered()){
+            myRef.child(rfid!!).setValue(data).addOnSuccessListener {
+                Log.d("Firebase REG:", "Data sent successfully")
+            }.addOnFailureListener {
+                Log.d("Firebase", "Data failed to send")
+            }
+
+            finish()
+        } else {
+            binding.tvIdRfid.text = "RFID $rfid Sudah Terdaftar"
+            binding.tvIdRfid.setTextColor(ContextCompat.getColor(this, R.color.red))
         }
-        finish()
+
     }
 
 
