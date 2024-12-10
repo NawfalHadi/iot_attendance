@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">IotAttendance</string>
+    <string name="rfid_ask">Scan RFID</string>
+    <string name="register_text">Register User</string>
+    <string name="name">Nama</string>
+    <string name="nomor_hp">Nomor Hp</string>
 </resources>
