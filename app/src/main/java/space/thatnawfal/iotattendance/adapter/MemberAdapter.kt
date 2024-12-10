@@ -6,6 +6,7 @@ import android.icu.util.Calendar
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
@@ -38,6 +39,12 @@ class MemberAdapter(private val data: MutableList<User>, private val listener: O
             holder.itemView.findViewById<TextView>(R.id.item_expired).setTextColor(ContextCompat.getColor(holder.itemView.context, R.color.red))
         } else {
             holder.itemView.findViewById<TextView>(R.id.item_expired).setTextColor(ContextCompat.getColor(holder.itemView.context, R.color.green))
+        }
+
+        if (item.active == 1.toLong()){
+            holder.itemView.findViewById<ImageView>(R.id.iv_active).setImageResource(R.drawable.ic_circle_green)
+        } else {
+            holder.itemView.findViewById<ImageView>(R.id.iv_active).setImageResource(R.drawable.ic_circle_red)
         }
 
         holder.itemView.findViewById<TextView>(R.id.item_expired).text = "Expired At : ${item.expired_at.toString()}"
