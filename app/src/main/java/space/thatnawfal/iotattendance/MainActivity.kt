@@ -47,7 +47,22 @@ class MainActivity : AppCompatActivity() {
             insets
         }
 
-        memberAdapter = MemberAdapter(memberList)
+        memberAdapter = MemberAdapter(memberList, object : MemberAdapter.OnItemClickListener{
+            override fun onItemClick(pos: Int) {
+                val member = memberList.get(pos)
+
+                val intent = Intent(this@MainActivity, UpdateActivity::class.java)
+                intent.putExtra("rfid", member.rfid)
+                intent.putExtra("name", member.name)
+                intent.putExtra("phone", member.phone_number)
+                intent.putExtra("expired", member.expired_at)
+
+                startActivity(intent)
+
+                Log.d("RECYCLER VIEW", "onItemClick: ${member}")
+            }
+
+        })
         binding.rvMember.adapter = memberAdapter
         binding.rvMember.setHasFixedSize(true)
         binding.rvMember.layoutManager = LinearLayoutManager(this)
@@ -70,19 +85,26 @@ class MainActivity : AppCompatActivity() {
                 Log.d("FIREBASE KEY", "Value is: {${value?.keys}}")
                 Log.d("FIREBASE VALUE", "Value is: {${value?.values}}")
 
-                for (data in value!!.values){
-                    val user = data as Map<*, *>
+                var counter = 0
+
+                for (data in value!!){
+                    val values = data.value
+                    val key = data.key
+
+                    val user = values as Map<*, *>
                     val temp = User(
-                    active = user["active"] as Long,
-                    name = user["name"] as String,
-                    phone_number = user["phone_number"] as String,
-                    created_at = user["created_at"] as String,
-                    expired_at = user["expired_at"] as String,
-                    updated_at = user["updated_at"] as String
+                        rfid = key,
+                        active = user["active"] as Long,
+                        name = user["name"] as String,
+                        phone_number = user["phone_number"] as String,
+                        created_at = user["created_at"] as String,
+                        expired_at = user["expired_at"] as String,
+                        updated_at = user["updated_at"] as String
                   )
 
                     memberList.add(temp)
-                    Log.d("FIREBASE VALUE", "Here : ${user["name"]}")
+                    Log.d("FIREBASE VALUE", "Here : ${key}")
+                    counter += 1
 
                 }
 

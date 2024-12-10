@@ -5,4 +5,5 @@
     <string name="name">Nama</string>
     <string name="nomor_hp">Nomor Hp</string>
     <string name="fake_phone">0821XXXX34XX</string>
+    <string name="update_text">Update Informasi Member</string>
 </resources>

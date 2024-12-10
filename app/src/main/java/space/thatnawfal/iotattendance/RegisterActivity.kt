@@ -191,13 +191,13 @@ class RegisterActivity : AppCompatActivity() {
         val database = Firebase.database
         val myRef = database.getReference("")
 
-        val data = User(
-            active = 0,
-            name = name,
-            phone_number = nohp,
-            created_at = createdDate,
-            updated_at = createdDate,
-            expired_at = date
+        val data = hashMapOf(
+            "active" to 0,
+            "name" to name,
+            "phone_number" to nohp,
+            "created_at" to createdDate,
+            "updated_at" to createdDate,
+            "expired_at" to date
         )
 
         if (rfidRegistered()){
